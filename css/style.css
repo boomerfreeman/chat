@@ -1,0 +1,79 @@
+/* Login page style: */
+
+#body-login {
+    padding-top: 200px;
+    background-color: #eef;
+}
+
+.form-signin {
+    max-width: 330px;
+    padding: 15px;
+    margin: 0 auto;
+    font-weight: normal;
+}
+
+.form-signin .form-signin-heading {
+    margin-bottom: 10px;
+}
+
+.form-signin .form-control {
+    position: relative;
+    height: auto;
+    width: 300px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 8px;
+    font-size: 16px;
+}
+
+.input-group {
+    margin: 15px 0;
+}
+
+.input-group-addon {
+    padding: 0 10px;
+    background-color: #fff;
+}
+
+#warning {
+    height: auto;
+    width: auto;
+    margin: -300px 500px;
+    background-color: #fff0e4;
+    border: 2px solid #000;
+    border-radius: 5px;
+    text-align: center;
+    padding: 10px;
+}
+
+/* Chatroom style: */
+
+#body-chat {
+    height: auto;
+    width: auto;
+    margin: 10px 300px;
+    background-color: #eef;
+}
+
+.col-lg-12 {
+    float: right;
+}
+
+.btn-default {
+    margin: 0;
+}
+
+.btn-success {
+    margin: 0;
+}
+
+.btn-danger {
+    margin: 0;
+}
+
+.panel-default {
+    margin: 10px;
+    height: auto;
+    width: auto;
+}
