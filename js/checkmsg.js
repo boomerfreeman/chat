@@ -1,7 +1,7 @@
 $(document).ready(function() {
 
-    // When user clicks on button with id=button
-    $("#button").click(function() {
+    // When user clicks on button with id=send
+    $("#send").click(function() {
         
         var msg = $("#message");
         
@@ -9,8 +9,8 @@ $(document).ready(function() {
         if (msg.val().length > 0 && msg.val().length < 1000) {
             msg.removeClass("error").addClass("noError");
             // Change button skin:
-            $("#button").removeClass("btn-default").addClass("btn-success").fadeOut(500, function () {
-                $("#button").removeClass("btn-success").addClass("btn-default").fadeIn(250);
+            $("#send").removeClass("btn-default").addClass("btn-success").fadeOut(500, function () {
+                $("#send").removeClass("btn-success").addClass("btn-default").fadeIn(250);
             });
             
             // And send AJAX request to chat_ajax.php:
@@ -29,8 +29,8 @@ $(document).ready(function() {
         } else {
             // Change button skin if value is wrong:
             msg.removeClass("noError").addClass("error");
-            $("#button").removeClass("btn-default").addClass("btn-danger").fadeOut(500, function () {
-                $("#button").removeClass("btn-danger").addClass("btn-default").fadeIn(250);
+            $("#send").removeClass("btn-default").addClass("btn-danger").fadeOut(500, function () {
+                $("#send").removeClass("btn-danger").addClass("btn-default").fadeIn(250);
             });
         }
     });

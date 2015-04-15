@@ -1,7 +1,7 @@
 $(document).ready(function() {
     
     // Bind fields when document is ready:
-    $("#username, #password").blur(function() {
+    $("#username, #password").change(function() {
         var user = $("#username");
         var pass = $("#password");
 
