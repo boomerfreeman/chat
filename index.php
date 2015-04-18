@@ -1,32 +1,40 @@
 <?php
+    
+// Start new session:
+session_start();
+
+// Redirect to chatroom if session is active:
+if ($_SESSION['logged'] == true) {
+    $_GET['page'] = 'chat';
+}
 
 // Set and reset error array:
 $show = array();
 
 // Include database connection file:
-require_once './db.php';
+require_once './models/db.php';
+
+// Include query file:
+require_once './models/functions.php';
 
 // If any page is set:
 if (isset($_GET['page'])) {
     
-    // Scan application folder:
-    $pages = scandir('./');
-    
-    // Stop script if this page does not exist in appfolder:
-    if (! in_array($_GET['page'].'.php', $pages)) {
-        exit('Access denied.');
+    // Stop script if this page does not exist:
+    if (! file_exists('./views/' . $_GET['page'] . '.php')) {
+        header("HTTP/1.0 404 Not Found");
+        exit;
     } else {
-        
-        // Otherwise start new session:
-        session_start();
         
         // And stop script if user is not logged in:
         if (! $_SESSION['username']) {
-            exit('Please log in.');
-        }       
+            header("HTTP/1.0 404 Not Found");
+            exit('You should log in first.');
+        }
+        
         // Set page variaible:
-        $page = htmlspecialchars($_GET['page']);
-    }    
+        $page = htmlspecialchars($_GET['page']); 
+   }    
 } else {
     
     // Or set page name to login:
@@ -35,8 +43,13 @@ if (isset($_GET['page'])) {
 
 // If username and password exist, set variables:
 if (isset($_POST['username'], $_POST['password'])) {
-    $user = htmlspecialchars($_POST['username']);
-    $pass = md5(htmlspecialchars($_POST['password']));
+    $user_regexp = preg_match('/^[а-яa-z0-9_.-]{2,20}$/i', $_POST['username'], $user_match);
+    $pass_regexp = preg_match('/^[а-яa-z0-9_.-]{3,}$/i', $_POST['password'], $pass_match);
+    
+    if (($user_regexp == true) && ($pass_regexp == true)) {
+        $user = htmlspecialchars($_POST['username']);
+        $pass = md5(htmlspecialchars($_POST['password']));
+    }
 }
 
 // If Login button is pressed:
@@ -48,17 +61,17 @@ if (isset($_POST['login'])) {
     // If typed data is correct:
     if (($user == $row['username']) && ($pass == $row['password'])) {
         
-        // Start session and insert username to SESSION array:
-        session_start();
+        // Set username and log in status to SESSION array:
         $_SESSION['username'] = $user;
+        $_SESSION['logged'] = true;
         
         // Then redirect to chatroom and stop script:
         header("Location: ./index.php?page=chat");
-        exit();
+        exit;
     } else {
         
         // Otherwise insert login page template with error message:
-        require_once './login.php';
+        require_once './views/login.php';
         $show['error'] = 'Wrong username and password';
     }
     
@@ -72,15 +85,24 @@ if (isset($_POST['login'])) {
     if ($user == $row['username']) {
         
         // Send error message:
-        require_once './login.php';
+        require_once './views/login.php';
         $show['error'] = 'This username is already taken';
     } else {
         
         // Otherwise register new user and send notification:
         registerNewUser($dbh, $user, $pass);
-        require_once './login.php';
+        require_once './views/login.php';
         $show['error'] = 'New user is registered';
     }
+}
+
+// If Log out button is pressed:
+if (isset($_POST['logout'])) {
+    unset($_SESSION);
+    session_destroy();
+    session_write_close();
+    header("Location: ./index.php");
+    exit;
 }
 ?>
 <!-- Print main template: -->
@@ -100,14 +122,14 @@ if (isset($_POST['login'])) {
     <?php
     
     // Include returned page:
-    require_once "./$page.php";
+    require_once "./views/$page.php";
     
     // If error exist:
-    if (! empty($show)) {?>
+    if (! empty($show)): ?>
     
     <!-- Show error message: -->
     <div id="warning"><h4><?=$show['error'];?></h4></div>
     
     <!-- Else show login page without error: -->
-    <?php } else { return false; } ?>
+    <?php endif; ?>
 </html>

@@ -15,7 +15,7 @@ $(document).ready(function() {
             
             // And send AJAX request to chat_ajax.php:
             $.ajax({
-                url: "chat_ajax.php",
+                url: "controllers/chat_ajax.php",
                 type: "POST",
                 data: "message=" + msg.val(),
                 

@@ -4,7 +4,10 @@
 date_default_timezone_set("Europe/Tallinn");
 
 // Include database connection file:
-require_once './db.php';
+require_once '../models/db.php';
+
+// Include query file:
+require_once '../models/functions.php';
 
 // Retrieve login parameter:
 session_start();
