@@ -43,10 +43,10 @@ if (isset($_GET['page'])) {
 
 // If username and password exist, set variables:
 if (isset($_POST['username'], $_POST['password'])) {
-    $user_regexp = preg_match('/^[а-яa-z0-9_.-]{2,20}$/i', $_POST['username'], $user_match);
-    $pass_regexp = preg_match('/^[а-яa-z0-9_.-]{3,}$/i', $_POST['password'], $pass_match);
+    preg_match('/^[а-яa-z0-9_.-]{2,20}$/i', $_POST['username'], $user_match);
+    preg_match('/^[а-яa-z0-9_.-]{3,}$/i', $_POST['password'], $pass_match);
     
-    if (($user_regexp == true) && ($pass_regexp == true)) {
+    if (($user_match[0] == true) && ($pass_match[0] == true)) {
         $user = htmlspecialchars($_POST['username']);
         $pass = md5(htmlspecialchars($_POST['password']));
     }
